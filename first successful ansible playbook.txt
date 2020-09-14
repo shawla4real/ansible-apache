@@ -1,0 +1,30 @@
+
+- hosts: dev
+  become: yes
+
+  vars:
+    tomcat8_url: https://archive.apache.org/dist/tomcat/tomcat-8/v8.0.32/bin/apache-tomcat-8.0.32.tar.gz
+    tomcat8_pkg: apache-tomcat-8.0.32.tar.gz
+    data_dir: /opt
+
+
+  tasks:
+    - name: install java
+      yum:
+        name: java
+        state: latest
+
+    - name: install httpd
+      yum:
+        name: httpd
+        state: latest
+
+    - name: upgrade all packages
+      yum:
+        name: '*'
+        state: latest
+
+    - name: download tomcat.tar file
+      get_url:
+        url: "{{ tomcat8_url }}"
+        dest: "{{ data_dir }}"
